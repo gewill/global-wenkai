@@ -7,6 +7,12 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 meta = json.loads((ROOT / 'userscript.meta.json').read_text())
 base = 'https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai'
+notices = '\n'.join([
+    'Global WenKai code — MIT\n' + (ROOT / 'LICENSE').read_text(),
+    'Bundled webfont CSS — lxgw-wenkai-webfont@1.7.0 — MIT\n' + (ROOT / 'vendor/LICENSE').read_text(),
+    'Referenced font files — SIL OFL 1.1 (not covered by the project MIT license)\n' + (ROOT / 'vendor/OFL.txt').read_text(),
+])
+license_comment = '/*\n' + notices.replace('*/', '* /') + '\n*/\n'
 fonts = []
 for file, family, alias in [
     ('lxgwwenkai-regular.css', 'LXGW WenKai', 'WenKai Online Fallback'),
@@ -56,8 +62,8 @@ for block in re.findall(r'@font-face\s*\{([^}]+)\}', '\n'.join(fonts)):
 loader = (ROOT / 'src/font-loader.js').read_text().replace('__FONT_DEFINITIONS__', json.dumps(definitions))
 out = ROOT / 'dist'
 out.mkdir(exist_ok=True)
-(out / 'global-wenkai.user.js').write_text(header + '\n(() => {\n  "use strict";\n  let css = "";\n' + '\n'.join(parts) + '\n  GM_addStyle(css);\n' + loader + '\n})();\n')
+(out / 'global-wenkai.user.js').write_text(header + license_comment + '\n(() => {\n  "use strict";\n  let css = "";\n' + '\n'.join(parts) + '\n  GM_addStyle(css);\n' + loader + '\n})();\n')
 (out / 'global-wenkai.meta.js').write_text(header)
-(out / 'global-wenkai.user.css').write_text(styleheader + css)
+(out / 'global-wenkai.user.css').write_text(styleheader + license_comment + css)
 (out / 'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.name + '\n' for p in sorted(out.glob('global-wenkai.*'))))
 print('Built global-wenkai ' + meta['version'])
