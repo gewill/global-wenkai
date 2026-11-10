@@ -10,14 +10,14 @@
 
 选择一种安装方式即可，避免同时启用两份样式。
 
-- **Tampermonkey**：[安装用户脚本](https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai.user.js)
-- **Stylus**：[安装 UserCSS](https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai.user.css)
+- **Tampermonkey（推荐）**：[Greasy Fork 安装用户脚本](https://greasyfork.org/zh-CN/scripts/604694)，或 [GitHub Raw 安装](https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai.user.js)
+- **Stylus**：[原 Greasy Fork 样式](https://greasyfork.org/zh-CN/scripts/454257)，或 [GitHub UserCSS](https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai.user.css)
 
 先安装对应的脚本管理扩展，再打开上面的 Raw 链接。Tampermonkey 应显示脚本安装页；若只显示源码，可在管理面板的“实用工具 → 从 URL 安装”粘贴同一链接。不要把 `.user.css` 当 JavaScript 粘贴到 Tampermonkey 编辑器。
 
 来自 Greasy Fork 的旧版请先备份，再在更新对话框中核对名称、版本和来源；若被识别为新条目，手动停用旧版。本次由用户手动安装 0.3.0，随后验证网页效果；自动更新仍未验证。
 
-两种产物都指向本仓库 `main/dist` 更新源。后续版本更新需提高 `userscript.meta.json` 中的版本号并重新生成产物，管理器按其更新设置检查。GitHub 元数据与 Greasy Fork 分发渠道独立；本仓库更新不会自动发布 Greasy Fork。
+从 GitHub 安装的两种产物都指向本仓库 `main/dist` 更新源；Greasy Fork 安装版由 Greasy Fork 提供更新。后续版本更新需提高 `userscript.meta.json` 中的版本号并重新生成产物，管理器按其更新设置检查。GitHub 元数据与 Greasy Fork 分发渠道独立；本仓库更新不会自动发布 Greasy Fork。
 
 ## 行为与限制
 
