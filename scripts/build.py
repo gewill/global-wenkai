@@ -34,7 +34,7 @@ for match in re.finditer(r'@-moz-document domain\("([^"\n]+)"\)\s*\{', css):
     pos = end
 parts.append('  css += ' + json.dumps(css[pos:], ensure_ascii=False) + ';')
 jsmeta = dict(meta)
-jsmeta.update({'match': ['http://*/*', 'https://*/*'], 'grant': 'GM_addStyle', 'run-at': 'document-start', 'sandbox': 'DOM', 'updateURL': base + '.meta.js', 'downloadURL': base + '.user.js'})
+jsmeta.update({'match': ['http://*/*', 'https://*/*'], 'grant': ['GM_addStyle', 'GM_xmlhttpRequest'], 'connect': 'cdn.jsdelivr.net', 'run-at': 'document-start', 'sandbox': 'DOM', 'updateURL': base + '.meta.js', 'downloadURL': base + '.user.js'})
 header = '// ==UserScript==\n'
 for key, values in jsmeta.items():
     for value in values if isinstance(values, list) else [values]:
@@ -43,9 +43,20 @@ header += '// ==/UserScript==\n'
 stylemeta = dict(meta)
 stylemeta.update({'preprocessor': 'default', 'updateURL': base + '.user.css', 'downloadURL': base + '.user.css'})
 styleheader = '/* ==UserStyle==\n' + ''.join(f'@{key} {value}\n' for key, value in stylemeta.items()) + '==/UserStyle== */\n'
+definitions = []
+for block in re.findall(r'@font-face\s*\{([^}]+)\}', '\n'.join(fonts)):
+    family = re.search(r"font-family: '([^']+)'", block)[1]
+    url = re.search(r"url\('([^']+)'\)", block)[1]
+    unicode_range = re.search(r'unicode-range:\s*([^;]+)', block)[1]
+    intervals = []
+    for value in unicode_range.split(','):
+        bounds = value.strip()[2:].split('-')
+        intervals.append([int(bounds[0], 16), int(bounds[-1], 16)])
+    definitions.append(dict(family=family, url=url, range=unicode_range, intervals=intervals))
+loader = (ROOT / 'src/font-loader.js').read_text().replace('__FONT_DEFINITIONS__', json.dumps(definitions))
 out = ROOT / 'dist'
 out.mkdir(exist_ok=True)
-(out / 'global-wenkai.user.js').write_text(header + '\n(() => {\n  "use strict";\n  let css = "";\n' + '\n'.join(parts) + '\n  GM_addStyle(css);\n})();\n')
+(out / 'global-wenkai.user.js').write_text(header + '\n(() => {\n  "use strict";\n  let css = "";\n' + '\n'.join(parts) + '\n  GM_addStyle(css);\n' + loader + '\n})();\n')
 (out / 'global-wenkai.meta.js').write_text(header)
 (out / 'global-wenkai.user.css').write_text(styleheader + css)
 (out / 'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.name + '\n' for p in sorted(out.glob('global-wenkai.*'))))

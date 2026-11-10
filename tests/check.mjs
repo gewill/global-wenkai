@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const source=readFileSync(new URL('../dist/global-wenkai.user.js', import.meta.url),'utf8');
 for(const hostname of ['google.com','zhihu.com','v2ex.com','github.com','x.com','www.youtube.com','sspai.com','jiemian.com','userstyles.org','423down.com','greasyfork.org','example.com']) {
  const styles=[];
- vm.runInNewContext(source,{location:{hostname},GM_addStyle:css=>styles.push(css)});
+ vm.runInNewContext(source,{location:{hostname},GM_addStyle:css=>styles.push(css), document:{readyState:'loading',addEventListener(){}}});
  assert.equal(styles.length,1);
  assert.match(styles[0],/font-family: 'LXGW WenKai'.*!important/);
  assert.match(styles[0],/font-family: 'LXGW WenKai Mono'.*!important/);

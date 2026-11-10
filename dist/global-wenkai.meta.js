@@ -2,7 +2,7 @@
 // @name          全局霞鹜文楷
 // @name:en       Global Font: LXGW WenKai
 // @namespace     RxWill
-// @version       0.2.2
+// @version       0.3.0
 // @description   本地文楷优先，缺失时从 jsDelivr 加载在线字体；保留常见图标与数学公式。
 // @author        Ge Will <531sunlight@gmail.com>
 // @homepageURL   https://github.com/gewill/global-wenkai
@@ -12,6 +12,8 @@
 // @match         http://*/*
 // @match         https://*/*
 // @grant         GM_addStyle
+// @grant         GM_xmlhttpRequest
+// @connect       cdn.jsdelivr.net
 // @run-at        document-start
 // @sandbox       DOM
 // @updateURL     https://raw.githubusercontent.com/gewill/global-wenkai/main/dist/global-wenkai.meta.js

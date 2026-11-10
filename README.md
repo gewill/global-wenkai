@@ -4,7 +4,7 @@
 
 这是用户脚本 / 用户样式项目，需要 Tampermonkey 或 Stylus，不是独立浏览器扩展。
 
-**当前版本 0.2.2，仍有已知兼容性限制。** Brave 中 Google、知乎、V2EX、YouTube 的抽样页面通过；GitHub 和 X 的在线字体回退被网站 CSP 拦截，尚未解决。详见[验证记录](docs/validation-2026-11-10.md)。
+**用户脚本 0.3.0 已在 Brave 实际安装验证 GitHub 和 X。** GitHub 正文和代码分别使用文楷、等宽文楷；X 帖子与导航使用文楷。纯 CSS 版不包含此修复，仍受站点字体 CSP 限制。详见[0.3.0 验证记录](docs/validation-0.3.0.md)。
 
 ## 安装
 
@@ -15,7 +15,7 @@
 
 先安装对应的脚本管理扩展，再打开上面的 Raw 链接。Tampermonkey 应显示脚本安装页；若只显示源码，可在管理面板的“实用工具 → 从 URL 安装”粘贴同一链接。不要把 `.user.css` 当 JavaScript 粘贴到 Tampermonkey 编辑器。
 
-来自 Greasy Fork 的旧版请先备份，再在更新对话框中核对名称、版本和来源；若被识别为新条目，手动停用旧版。安装/升级流程尚未实测。
+来自 Greasy Fork 的旧版请先备份，再在更新对话框中核对名称、版本和来源；若被识别为新条目，手动停用旧版。本次由用户手动安装 0.3.0，随后验证网页效果；自动更新仍未验证。
 
 两种产物都指向本仓库 `main/dist` 更新源。后续版本更新需提高 `userscript.meta.json` 中的版本号并重新生成产物，管理器按其更新设置检查。GitHub 元数据与 Greasy Fork 分发渠道独立；本仓库更新不会自动发布 Greasy Fork。
 
@@ -30,7 +30,7 @@
 
 ## 隐私与字体来源
 
-脚本不收集或上传页面文字，不包含统计请求。只有本地字体不可用并需要相应字符时，浏览器才请求 jsDelivr 的字体分片；CDN 可接收常规网络请求信息。版本固定为 `lxgw-wenkai-webfont@1.7.0`，没有远程 JavaScript 或运行时 CSS import。
+脚本不收集或上传页面文字，不包含统计请求。只有本地字体不可用并需要相应字符时，浏览器才请求 jsDelivr 的字体分片；CDN 可接收常规网络请求信息。版本固定为 `lxgw-wenkai-webfont@1.7.0`，没有远程 JavaScript 或运行时 CSS import。0.3.0 用户脚本在 GitHub/X/Twitter 上增加 GM_xmlhttpRequest 与仅限 cdn.jsdelivr.net 的连接权限，以匿名请求读取字体二进制，再通过 FontFace 注册；不修改页面 CSP。
 
 该版本内嵌 Regular 字体声明，粗体/斜体由浏览器合成。网络字体失败时回退系统字体。不要为本脚本关闭网站安全防护。
 
@@ -42,6 +42,7 @@
 python3 scripts/build.py
 node --check dist/global-wenkai.user.js
 node tests/check.mjs
+node tests/font-loader.mjs
 git diff --check
 ```
 
@@ -59,7 +60,7 @@ docs/                  兼容性与维护说明
 
 ## 来源与许可
 
-源自作者在 [Greasy Fork 发布的全局霞鹜文楷](https://greasyfork.org/zh-CN/scripts/454257)。本轮修复由 0.1 演进至 0.2.2。
+源自作者在 [Greasy Fork 发布的全局霞鹜文楷](https://greasyfork.org/zh-CN/scripts/454257)。本轮修复由 0.1 演进至 0.3.0。
 
 项目组织参考 [SukkaW/Make-Bilibili-Great-Than-Ever-Before](https://github.com/SukkaW/Make-Bilibili-Great-Than-Ever-Before) 的源码、元数据和构建产物分离方式；没有复制其功能代码。
 
