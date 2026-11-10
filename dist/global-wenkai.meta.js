@@ -8,6 +8,7 @@
 // @homepageURL   https://github.com/gewill/global-wenkai
 // @supportURL    https://github.com/gewill/global-wenkai/issues
 // @license       MIT
+// @description:en Use local LXGW WenKai fonts first, with online font fallback from jsDelivr; preserve common icons and math.
 // @match         http://*/*
 // @match         https://*/*
 // @grant         GM_addStyle
