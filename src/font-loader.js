@@ -16,14 +16,14 @@ if (['github.com', 'x.com', 'twitter.com'].some(host => location.hostname === ho
         anonymous: true, timeout: 20000,
         onload: async response => {
           try {
-            if (response.status !== 200 || !response.response?.byteLength) throw new Error('Font response unavailable');
+            if (response.status !== 200 || !response.response?.byteLength) throw new Error('字体响应不可用');
             const face = new FontFace(definition.family, response.response, {
               style: 'normal', weight: '400', unicodeRange: definition.range,
               display: 'swap'
             });
             await face.load();
             document.fonts.add(face);
-          } catch (error) { console.warn('[Global WenKai] Font fallback failed:', error.message); }
+          } catch (error) { console.warn('[全局霞鹜文楷] 在线字体加载失败：', error.message); }
           finally { active--; pump(); }
         },
         onerror: finishError, ontimeout: finishError,
@@ -31,7 +31,7 @@ if (['github.com', 'x.com', 'twitter.com'].some(host => location.hostname === ho
     }
   }
   function finishError() {
-    console.warn('[Global WenKai] Font download failed; keeping system fallback.');
+    console.warn('[全局霞鹜文楷] 字体下载失败，继续使用系统备用字体。');
     active--; pump();
   }
   function scan() {

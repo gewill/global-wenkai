@@ -19,6 +19,12 @@
 
 从 GitHub 安装的两种产物都指向本仓库 `main/dist` 更新源；Greasy Fork 安装版由 Greasy Fork 提供更新。后续版本更新需提高 `userscript.meta.json` 中的版本号并重新生成产物，管理器按其更新设置检查。GitHub 元数据与 Greasy Fork 分发渠道独立；本仓库更新不会自动发布 Greasy Fork。
 
+## 界面语言
+
+本项目以中文为默认文案，提供简体／繁体中文名称与简介，同时保留英文名称 `Global Font: LXGW WenKai` 和英文简介，供管理器按语言设置选择。字体加载失败时的脚本诊断提示使用中文；目前没有独立设置面板或语言切换功能。
+
+Tampermonkey／Stylus 的菜单由管理器提供。例如 Edit（编辑）、Report a bug（报告问题）、Exclude x.com（排除 x.com）、Delete（删除）不属于本脚本的文案。如管理器仍显示英文，请检查管理器及浏览器的语言设置；脚本保留英文元数据，因此英文环境仍可能显示英文名称。具体语言匹配与旧安装的名称刷新以实际管理器为准。
+
 ## 行为与限制
 
 - 覆盖常见文字元素、表单文字及 YouTube 的文字组件。

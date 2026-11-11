@@ -2,13 +2,19 @@
 // @name          全局霞鹜文楷
 // @name:en       Global Font: LXGW WenKai
 // @namespace     RxWill
-// @version       0.3.1
+// @version       0.3.2
 // @description   本地文楷优先，缺失时从 jsDelivr 加载在线字体；保留常见图标与数学公式。
 // @author        Ge Will <531sunlight@gmail.com>
 // @homepageURL   https://github.com/gewill/global-wenkai
 // @supportURL    https://github.com/gewill/global-wenkai/issues
 // @license       MIT
 // @description:en Use local LXGW WenKai fonts first, with online font fallback from jsDelivr; preserve common icons and math.
+// @name:zh       全局霞鹜文楷
+// @name:zh-CN    全局霞鹜文楷
+// @name:zh-TW    全局霞鶩文楷
+// @description:zh 本地文楷优先，缺失时从 jsDelivr 加载在线字体；保留常见图标与数学公式。
+// @description:zh-CN 本地文楷优先，缺失时从 jsDelivr 加载在线字体；保留常见图标与数学公式。
+// @description:zh-TW 優先使用本機文楷，缺少時從 jsDelivr 載入線上字型；保留常見圖示與數學公式。
 // @match         http://*/*
 // @match         https://*/*
 // @grant         GM_addStyle
@@ -212,14 +218,14 @@ if (['github.com', 'x.com', 'twitter.com'].some(host => location.hostname === ho
         anonymous: true, timeout: 20000,
         onload: async response => {
           try {
-            if (response.status !== 200 || !response.response?.byteLength) throw new Error('Font response unavailable');
+            if (response.status !== 200 || !response.response?.byteLength) throw new Error('字体响应不可用');
             const face = new FontFace(definition.family, response.response, {
               style: 'normal', weight: '400', unicodeRange: definition.range,
               display: 'swap'
             });
             await face.load();
             document.fonts.add(face);
-          } catch (error) { console.warn('[Global WenKai] Font fallback failed:', error.message); }
+          } catch (error) { console.warn('[全局霞鹜文楷] 在线字体加载失败：', error.message); }
           finally { active--; pump(); }
         },
         onerror: finishError, ontimeout: finishError,
@@ -227,7 +233,7 @@ if (['github.com', 'x.com', 'twitter.com'].some(host => location.hostname === ho
     }
   }
   function finishError() {
-    console.warn('[Global WenKai] Font download failed; keeping system fallback.');
+    console.warn('[全局霞鹜文楷] 字体下载失败，继续使用系统备用字体。');
     active--; pump();
   }
   function scan() {
